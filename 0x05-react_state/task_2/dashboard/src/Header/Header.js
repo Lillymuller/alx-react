@@ -1,53 +1,49 @@
-import React from 'react';
-import { StyleSheet, css } from 'aphrodite';
-import logo from '../assets/holberton-logo.jpg';
-import AppContext from '../App/AppContext';
+import React, { useContext } from "react";
+import logo from "../assets/holberton-logo.jpg";
+import { StyleSheet, css } from "aphrodite";
+import { AppContext } from "../App/AppContext";
 
-class Header extends React.Component {
-	constructor(props) {
-		super(props);
-	}
+function Header() {
+  const { user, logOut } = useContext(AppContext);
 
-	render() {
-		const { user, logOut } = this.context;
-		return (
-			<header className={css(styles.Header)}>
-				<img src={logo} className={css(styles.HeaderLogo)} alt="logo" />
-				<h1>School dashboard</h1>
-				{
-					user.isLoggedIn && (
-						<h2 id='logoutSection'>
-							Welcome <b>{user.email}</b>
-							<span onClick={logOut} className={css(styles.logOutSpanSection)}>
-								(logout)
-							</span>
-						</h2>
-					)
-				}
-			</header>
-		);
-	}
+  return (
+    <>
+      <div className={css(styles["App-header"])}>
+        <img src={logo} className={css(styles.img)} alt="logo" />
+        <h1>School dashboard</h1>
+      </div>
+
+      {user.isLoggedIn && (
+        <section className={css(styles.greeting)} id="logoutSection">
+          Welcome<strong> {user.email} </strong>
+          <em>
+            <a href="#" onClick={logOut}>
+              (logout)
+            </a>
+          </em>
+        </section>
+      )}
+    </>
+  );
 }
 
-Header.contextType = AppContext;
-
 const styles = StyleSheet.create({
-	Header: {
-		display: 'flex',
-		alignItems: 'center',
-		justifyContent: 'flex-start',
-		color: '#e1354b',
-		borderBottom: '4px solid #e1354b'
-	},
+  "App-header": {
+    fontSize: "1.4rem",
+    color: "#e0354b",
+    display: "flex",
+    alignItems: "center",
+    borderBottom: "3px solid #e0354b",
+  },
 
-	HeaderLogo: {
-		width: '20%'
-	},
+  img: {
+    width: "200px",
+    height: "200px",
+  },
 
-	logOutSpanSection: {
-		cursor: 'pointer',
-		fontStyle: 'italic'
-	},
+  greeting: {
+    marginTop: "1rem",
+  },
 });
 
 export default Header;
